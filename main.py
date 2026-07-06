@@ -1,5 +1,5 @@
 import time
-import random
+import  re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -49,3 +49,21 @@ except Exception:
     print("Successfully clicked Posts filter (fallback).")
 
 time.sleep(5)
+
+
+print("Extracting posts and looking for emails...")
+time.sleep(5)
+post_elements = driver.find_elements(By.CLASS_NAME, "feed-shared-update-v2__description-wrapper")
+email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+found_emails = []
+
+for post in post_elements:
+    text = post.text
+    emails = re.findall(email_pattern, text)
+    if emails:
+        for email in emails:
+            if email not in found_emails:
+                found_emails.append(email)
+
+print(f"Extraction complete. Found {len(found_emails)} unique email(s):")
+print(found_emails)
