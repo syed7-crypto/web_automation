@@ -33,3 +33,19 @@ searchbar.send_keys(search)
 time.sleep(1)
 print("Press enter...")
 searchbar.send_keys(Keys.ENTER)
+time.sleep(10)
+
+
+print("Filtering results by Posts...")
+time.sleep(4)
+
+try:
+    posts_filter_button = driver.find_element(By.XPATH, '//button[text()="Posts"]')
+    posts_filter_button.click()
+    print("Successfully clicked Posts filter.")
+except Exception:
+    posts_filter_button = driver.find_element(By.XPATH, '//button[contains(., "Posts")]')
+    posts_filter_button.click()
+    print("Successfully clicked Posts filter (fallback).")
+
+time.sleep(5)
